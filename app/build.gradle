@@ -1,0 +1,33 @@
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    compileSdk 29
+
+    defaultConfig {
+        applicationId "github.hisuzume.httpd"
+        minSdk 21
+        targetSdk 29
+        versionCode 10000
+        versionName "1.0.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+dependencies {
+	// CodeAssist does NOT support adding dependencies here,
+	// try using the library manager instead
+	
+	// implementation "org.nanohttpd:nanohttpd:2.2.0"
+}
