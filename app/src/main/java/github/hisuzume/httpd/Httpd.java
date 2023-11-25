@@ -2,8 +2,12 @@ package github.hisuzume.httpd;
 
 import android.app.appsearch.ReportSystemUsageRequest;
 import fi.iki.elonen.NanoHTTPD;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.InputStream;
+import java.io.RandomAccessFile;
 
 public class Httpd extends NanoHTTPD {
 	private String rootDir;
@@ -130,8 +134,49 @@ public class Httpd extends NanoHTTPD {
 					return newFixedLengthResponse(Response.Status.BAD_REQUEST, "text/plain", "400 - 无效访问！");
 			}
 
-			// 默认文件处理
-			return newChunkedResponse(Response.Status.OK, getMimeForFile(reqFile), new FileInputStream(reqFile));
+			String range = req.getHeaders().get("Range");
+			if (range == null)
+				range = req.getHeaders().get("range");
+
+			if (range != null) {
+				// 断点续传 常见于视频、音频、继续下载等
+
+				// 此处代码由夏小沫的AI小站辅助编写 感谢夏沫
+
+				FileInputStream reqFileInput = new FileInputStream(reqFile);
+
+				long fileLength = reqFile.length();
+				long startRange = 0;
+				long endRange = fileLength - 1;
+
+				String[] rangeValues = range.split("=")[1].split("-");
+				if (rangeValues.length > 1) {
+					startRange = Long.parseLong(rangeValues[0]);
+					endRange = Long.parseLong(rangeValues[1]);
+				} else {
+					startRange = Long.parseLong(rangeValues[0]);
+				}
+
+				long contentLength = endRange - startRange + 1;
+
+				// 跳过部分读取
+				reqFileInput.skip(startRange);
+
+				Response response = newFixedLengthResponse(Response.Status.PARTIAL_CONTENT, getMimeForFile(reqFile),
+						reqFileInput, contentLength);
+				response.addHeader("Content-Length", String.valueOf(contentLength));
+				response.addHeader("Content-Range", "bytes " + startRange + "-" + endRange + "/" + fileLength);
+				response.addHeader("Accept-Ranges", "bytes");
+
+				return response;
+			} else {
+				// 默认文件处理
+				Response res = newFixedLengthResponse(Response.Status.OK, getMimeForFile(reqFile),
+						new FileInputStream(reqFile), reqFile.length());
+				res.addHeader("Content-Length", String.valueOf(reqFile.length()));
+				res.addHeader("Accept-Ranges", "bytes");
+				return res;
+			}
 		} catch (Exception e) {
 			// 异常处理
 			return newFixedLengthResponse(Response.Status.INTERNAL_ERROR, "text/plain",

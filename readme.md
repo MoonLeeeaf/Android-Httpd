@@ -4,16 +4,16 @@
 
 #### 预览
 
-![软件设置截图](1.jpg)
+[软件设置截图](1.jpg)
 
-#### 常见问题
+#### 编译
 
-1. 访问超时 → 华为：关闭省电模式、允许本应用后台运行，其他：类似，原生：(待补充)
+本项目使用 [CodeAssist](https://github.com/tyron12233/CodeAssist/) 进行开发，理论上其他 IDE 也能直接编译。
 
-2. 端口被占用 → 解除占用
-
-更多，请补充
+如果使用其他 IDE 且无法打开，我也无能为力，实在抱歉！
 
 #### 授权
+
+**注：本项目使用 MIT License 开源，但我不建议将本项目用于商业用途。**
 
 [NanoHttpd](https://github.com/NanoHttpd/nanohttpd/) - BSD-3-Clause license
