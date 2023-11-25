@@ -14,12 +14,6 @@
 
 更多，请补充
 
-#### 编译
-
-本项目使用 [CodeAssist](https://github.com/tyron12233/CodeAssist/) 进行开发，理论上其他 IDE 也能直接编译。
-
-如果使用其他 IDE 且无法打开，我也无能为力，实在抱歉。
-
 #### 授权
 
 [NanoHttpd](https://github.com/NanoHttpd/nanohttpd/) - BSD-3-Clause license
