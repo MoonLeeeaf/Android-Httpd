@@ -1,6 +1,8 @@
 package github.hisuzume.httpd;
 
+import android.Manifest;
 import android.app.Activity;
+import android.os.Build;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.EditText;
@@ -12,6 +14,7 @@ public class SettingsActivity extends Activity {
 	private EditText e_port;
 	private EditText e_rootDir;
 	private Switch s_enableFileList;
+	private Switch s_enableService;
 
 	@Override
 	protected void onCreate(Bundle arg0) {
@@ -34,6 +37,14 @@ public class SettingsActivity extends Activity {
 		s_enableFileList = findViewById(R.id.enableFileList);
 		
 		s_enableFileList.setChecked("true".equals(sdm.get("enableFileList","false")));
+		
+		s_enableService = findViewById(R.id.enableService);
+		
+		s_enableService.setChecked(HttpdService.isRunning());
+		
+		// 申请读取文件权限
+		if (Build.VERSION.SDK_INT >= 23)
+			requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE, }, 0);
 	}
 
 	@Override
@@ -44,9 +55,11 @@ public class SettingsActivity extends Activity {
 		sdm.set("rootDir", e_rootDir.getText().toString());
 		sdm.set("enableFileList",s_enableFileList.isChecked() == true ? "true" : "false");
 		
+		// 并不会引发错误，安心使用
 		stopService(new Intent(this,HttpdService.class));
 		
-		startForegroundService(new Intent(this,HttpdService.class));
+		if(s_enableService.isChecked())
+			startForegroundService(new Intent(this,HttpdService.class));
 	}
 
 }

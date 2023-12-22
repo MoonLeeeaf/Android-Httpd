@@ -13,8 +13,12 @@ import android.widget.Toast;
 
 public class HttpdService extends Service {
 
-	private boolean isstarted = false;
+	private static boolean isstarted = false;
 	private Httpd httpd;
+	
+	public static boolean isRunning() {
+		return isstarted;
+	}
 
 	@Override
 	public IBinder onBind(Intent intent) {
@@ -35,7 +39,7 @@ public class HttpdService extends Service {
 			// 初始化通知渠道
 			NotificationChannel nc = new NotificationChannel("service_running", "Httpd is running",
 					NotificationManager.IMPORTANCE_LOW);
-			nc.setDescription("使 Httpd 能够在后台运行，若关闭，不能保证在所有系统上维持运行。");
+			nc.setDescription("按道理来说只要允许后台运行和自启动都无所谓，如果被杀后台了，请尝试显示此通知！");
 			// 注册渠道
 			((NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(nc);
 			nb = new Notification.Builder(this, "service_running");
@@ -51,7 +55,7 @@ public class HttpdService extends Service {
 
 		nb.setContentTitle("Httpd 正在运行");
 
-		nb.setContentText("正在托管 " + path + " 到端口 " + port + "，点击以打开设置～");
+		nb.setContentText("正在托管文件夹 " + path + " 到端口 " + port + "～");
 
 		nb.setContentIntent(PendingIntent.getActivity(this,0,new Intent(this,SettingsActivity.class),PendingIntent.FLAG_UPDATE_CURRENT));
 	
@@ -66,8 +70,9 @@ public class HttpdService extends Service {
 
 		try {
 			httpd.start();
+			Toast.makeText(this, "Httpd 已启动～", Toast.LENGTH_SHORT).show();
 		} catch (Exception e) {
-			Toast.makeText(this, "启动服务失败！" + e.getMessage(), Toast.LENGTH_LONG).show();
+			Toast.makeText(this, "启动 Httpd 失败！" + e.getMessage(), Toast.LENGTH_LONG).show();
 		}
 	}
 

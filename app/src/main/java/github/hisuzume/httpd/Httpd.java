@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.RandomAccessFile;
+import java.util.concurrent.Executors;
 
 public class Httpd extends NanoHTTPD {
 	private String rootDir;
@@ -95,7 +96,8 @@ public class Httpd extends NanoHTTPD {
 	}
 
 	@Override
-	public NanoHTTPD.Response serve(NanoHTTPD.IHTTPSession req) {
+	public NanoHTTPD.Response serve(final NanoHTTPD.IHTTPSession req) {
+		
 		try {
 			File reqFile = new File(rootDir + req.getUri());
 
@@ -127,7 +129,7 @@ public class Httpd extends NanoHTTPD {
 					}
 					// 返回文件列表
 					return newFixedLengthResponse(Response.Status.OK, "text/html",
-							"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><title>文件列表 - "
+							"<html><head><meta name='viewport' content='width=device-width, initial-scale=1.0'><meta charset='utf-8'><title>文件列表 - "
 									+ reqFile + "</title></head><body><h>文件列表：</h><br/>" + inside + "</body></html>");
 				} else
 					//报告错误信息
@@ -145,6 +147,7 @@ public class Httpd extends NanoHTTPD {
 
 				FileInputStream reqFileInput = new FileInputStream(reqFile);
 
+				// 计算文件读取的起始点以及长度
 				long fileLength = reqFile.length();
 				long startRange = 0;
 				long endRange = fileLength - 1;

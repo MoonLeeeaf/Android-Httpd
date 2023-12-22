@@ -12,11 +12,15 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		startForegroundService(new Intent(this, HttpdService.class));
+		// startForegroundService(new Intent(this, HttpdService.class));
 
 		// 动态权限申请
 		if (Build.VERSION.SDK_INT >= 23)
 			requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE, }, 0);
+
+		// startActivity(new I)
+				
+		// 不Alias了
 
 		finish();
 	}

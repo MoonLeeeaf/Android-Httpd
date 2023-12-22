@@ -1,10 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="github.hisuzume.httpd"
-    android:versionCode="11000"
-    android:versionName="1.1.0" >
+    android:versionCode="12000"
+    android:versionName="1.2.0" >
 
     <uses-sdk
-        android:minSdkVersion="21"
+        android:minSdkVersion="19"
         android:targetSdkVersion="29" />
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -20,9 +20,9 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.MyApplication" >
         <activity
-            android:name=".MainActivity"
+            android:name=".SettingsActivity"
             android:exported="true"
-            android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar" >
+            android:theme="@android:style/Theme.DeviceDefault.Dialog" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -32,9 +32,6 @@
 
         <service android:name=".HttpdService" />
 
-        <activity
-            android:name=".SettingsActivity"
-            android:theme="@android:style/Theme.DeviceDefault.Dialog" />
     </application>
 
 </manifest>

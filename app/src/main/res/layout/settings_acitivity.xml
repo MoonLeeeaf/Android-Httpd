@@ -3,6 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+	
+	<Switch
+        android:id="@+id/enableService"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="启用服务" />
 
     <EditText
         android:id="@+id/port"
@@ -24,5 +31,11 @@
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
         android:text="启用文件列表" />
+		
+	<TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:text="注：所有修改在关闭本 Activity 后才会生效哦！如果需要更稳定使用，小米系统请允许后台自启动，建议所有手机允许本应用后台运行～\n\nAuthor: HiSuzume" />
 
 </LinearLayout>
