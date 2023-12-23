@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="github.hisuzume.httpd"
     android:versionCode="12000"
-    android:versionName="1.2.0" >
+    android:versionName="1.3.0" >
 
     <uses-sdk
         android:minSdkVersion="19"
@@ -19,9 +19,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.MyApplication" >
+		
         <activity
             android:name=".SettingsActivity"
             android:exported="true"
+			android:excludeFromRecents="true"
             android:theme="@android:style/Theme.DeviceDefault.Dialog" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -29,6 +31,38 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+		<activity
+			android:name=".StartBrowserForLoaclHostActivity"
+			android:label="从浏览器打开 localhost"
+			android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar"
+			android:excludeFromRecents="true"
+			android:exported="true">
+			<intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+				<data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.open_browser_for_localhost" />
+            </intent-filter>
+		</activity>
+		
+		<activity
+			android:name=".StartHttpdAtAnotherDirActivity"
+			android:label="修改运行路径并启动 Httpd"
+			android:theme="@android:style/Theme.DeviceDefault.Dialog.NoActionBar"
+			android:excludeFromRecents="true"
+			android:exported="true">
+			<intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="file" />
+                <data android:scheme="content" />
+				<data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.start_httpd_at_this_dir" />
+            </intent-filter>
+		</activity>
 
         <service android:name=".HttpdService" />
 

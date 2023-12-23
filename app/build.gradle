@@ -9,8 +9,8 @@ android {
         applicationId "github.hisuzume.httpd"
         minSdk 21
         targetSdk 29
-        versionCode 12000
-        versionName "1.2.0"
+        versionCode 13000
+        versionName "1.3.0"
     }
 
     buildTypes {
